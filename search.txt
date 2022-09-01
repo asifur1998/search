@@ -1,0 +1,22 @@
+
+search 
+
+  <form action="{{url('/users/search')}}"method="get">
+    @csrf
+  <input type="text" name="search_name"placeholder="search ----">
+  <button type="submit"> search </button> 
+  </form>
+
+
+web.php
+
+Route::get('/users/search',[HomeController::class,'search']);
+
+Controller
+
+    public function search(request $request)
+    {
+         $get_name = $request->search_name;
+        $users = Demo::where('name','LIKE','%'.$get_name.'%')->orWhere('address', 'like', '%'.$get_name.'%')->get();
+        return view ('admin.home',compact('users'));
+    }
